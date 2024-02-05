@@ -196,6 +196,12 @@
   };
 
 
+  # Enable Gamemode
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -235,9 +241,6 @@
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
-
-  # Enable Gamemode
-  programs.gamemode.enable = true;
 
   # Enable Flatpak
   services.flatpak.enable = true;
