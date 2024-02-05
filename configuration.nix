@@ -144,8 +144,6 @@
       zoom-us
       telegram-desktop
       discord
-      preload
-      pdnsd
       syncthing
       syncthingtray
       gparted
