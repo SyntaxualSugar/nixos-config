@@ -153,6 +153,7 @@
       syncthingtray
       gparted
       steam
+      heroic
       prismlauncher
       protonup-ng
       gamemode
