@@ -135,7 +135,6 @@
     packages = with pkgs; [
       firefox
       vivaldi
-      git
       kate
       plasma-vault
       home-manager
@@ -145,14 +144,11 @@
       zoom-us
       telegram-desktop
       discord
-      htop
-      oh-my-zsh
       preload
       pdnsd
       syncthing
       syncthingtray
       gparted
-      steam
       heroic
       prismlauncher
       protonup-ng
@@ -168,13 +164,27 @@
     ];
   };
 
-  programs.zsh.ohMyZsh = {
+  # Zsh
+  users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
+  programs.zsh = {
     enable = true;
-    plugins = [ "git" "python" "man" "docker" "docker-compose" "rust" "golang" ];
-    theme = "agnoster";
+    enableCompletion = true;
+    shellAliases = {
+      ll = "ls -l";
+      update = "sudo nixos-rebuild switch";
+    };
+    histSize = 10000;
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "python" "man" "docker" "docker-compose" "rust" "golang" ];
+      theme = "agnoster";
+    };
   };
 
-  # SSH
+  # Program enablement
+  programs.git.enable = true;
+  programs.htop.enable = true;
+  programs.java.enable = true;
   programs.ssh.startAgent = true;
 
   # Steam
@@ -182,10 +192,9 @@
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    #package = pkgs.steam.override { withJava = true; };
   };
 
-  programs.java.enable = true;
-  programs.steam.package = pkgs.steam.override { withJava = true; };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
