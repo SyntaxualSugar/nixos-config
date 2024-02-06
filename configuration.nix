@@ -2,9 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: let
+  nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -97,6 +97,7 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  qt.style = "breeze-dark";
 
   # Configure keymap in X11
   services.xserver = {
@@ -140,6 +141,7 @@
       home-manager
       libsForQt5.kdeconnect-kde
       libsForQt5.kdegraphics-thumbnailers
+      libsForQt5.dolphin-plugins
       thunderbird
       zoom-us
       telegram-desktop
@@ -149,9 +151,10 @@
       gparted
       heroic
       prismlauncher
-      protonup-ng
       gamemode
+      nix-gaming.packages.${pkgs.hostPlatform.system}.proton-ge
       jellyfin-media-player
+      haruna
       czkawka
       gallery-dl
       super-slicer-latest
@@ -193,6 +196,14 @@
     #package = pkgs.steam.override { withJava = true; };
   };
 
+  # Set up an overlay for proton-ge. Found here: https://github.com/fufexan/nix-gaming.
+  nixpkgs.overlays = [
+    (_: prev: {
+        steam = prev.steam.override {
+            extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${nix-gaming.packages.${pkgs.system}.proton-ge}'";
+        };
+    })
+  ];
 
   # Enable Gamemode
   programs.gamemode = {
