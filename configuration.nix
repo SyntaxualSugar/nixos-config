@@ -10,10 +10,17 @@ in {
       ./hardware-configuration.nix
     ];
 
+  nix.gc = {
+    automatic = true;
+    randomizedDelaySec = "14m";
+    options = "--delete-older-than 10d";
+  };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.useOSProber = true;
+  boot.loader.grub.configurationLimit = 20;
 
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
@@ -58,6 +65,9 @@ in {
 
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  # Enable hardware firmware - fixes logitech C910 mic
+  hardware.enableAllFirmware = true;
 
   # Enable Proprietary NVIDIA drivers
   services.xserver.videoDrivers = [ "nvidia" ];
