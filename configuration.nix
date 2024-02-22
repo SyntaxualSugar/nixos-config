@@ -98,6 +98,12 @@ in {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
   # Enable Preload
   services.preload.enable = true;
 
@@ -119,7 +125,7 @@ in {
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -144,81 +150,18 @@ in {
     description = "trenton";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      firefox
-      vivaldi
-      kate
-      plasma-vault
-      home-manager
-      libsForQt5.kdeconnect-kde
-      libsForQt5.kdegraphics-thumbnailers
-      libsForQt5.dolphin-plugins
-      thunderbird
-      zoom-us
-      telegram-desktop
-      discord
-      syncthing
-      syncthingtray
-      gparted
-      heroic
-      prismlauncher
-      gamemode
       nix-gaming.packages.${pkgs.hostPlatform.system}.proton-ge
-      jellyfin-media-player
-      haruna
-      czkawka
-      gallery-dl
-      super-slicer-latest
-      openscad
-      ollama
-      jetbrains.goland
-      jetbrains.pycharm-community
     ];
   };
 
-  # Zsh
   users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
   programs.zsh = {
     enable = true;
-    enableCompletion = true;
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch";
     };
     histSize = 10000;
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "python" "man" "docker" "docker-compose" "rust" "golang" ];
-      theme = "agnoster";
-    };
-  };
-
-  # Program enablement
-  programs.git.enable = true;
-  programs.htop.enable = true;
-  programs.java.enable = true;
-  programs.ssh.startAgent = true;
-
-  # Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    #package = pkgs.steam.override { withJava = true; };
-  };
-
-  # Set up an overlay for proton-ge. Found here: https://github.com/fufexan/nix-gaming.
-  nixpkgs.overlays = [
-    (_: prev: {
-        steam = prev.steam.override {
-            extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${nix-gaming.packages.${pkgs.system}.proton-ge}'";
-        };
-    })
-  ];
-
-  # Enable Gamemode
-  programs.gamemode = {
-    enable = true;
-    enableRenice = true;
   };
 
   # Allow unfree packages
@@ -269,4 +212,63 @@ in {
   # Docker
   virtualisation.docker.enable = true;
   
+  programs.ssh.startAgent = true;
+
+  # Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    #package = pkgs.steam.override { withJava = true; };
+  };
+
+  # Set up an overlay for proton-ge. Found here: https://github.com/fufexan/nix-gaming.
+  nixpkgs.overlays = [
+    (_: prev: {
+        steam = prev.steam.override {
+            extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${nix-gaming.packages.${pkgs.system}.proton-ge}'";
+        };
+    })
+  ];
+
+  # Enable Gamemode
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+  };
+
+  services.syncthing = {
+    enable = true;
+    user = "trenton";
+    dataDir = "/Media";
+    settings = {
+      options = {
+        urAccepted = 1;
+        relaysEnabled = true;
+      };
+      folders = {
+        "Music" = {
+          path = "/Media/Music";
+          devices = [ "neptune" "OrangePi5" ];
+        };
+        "Movies" = {
+          path = "/Media/Movies";
+          devices = [ "OrangePi5" ];
+        };
+        "TV" = {
+          path = "/Media/TV";
+          devices = [ "OrangePi5" ];
+        };
+      };
+      devices = {
+        "neptune" = { id = "S4CNLVA-LIAGHT6-MI6O2VJ-E7EUQDV-NSC5Q6A-B5PHAIY-3GND2OI-TZIQLAS"; };
+        "OrangePi5" = { id = "6UC4JCM-MFJEZMT-HM5K2FF-PYFG4DF-YAMCLHQ-AQGQ7XN-GQVRAHD-QDK6EAS"; };
+      };
+      gui = {
+        user = "trenton";
+        password = "Zm9Fukd4a84$dKYbLwsCB7a@MFidf&#Sj";
+      };
+    };
+  };
+
 }
