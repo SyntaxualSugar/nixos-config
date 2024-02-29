@@ -2,12 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }: let
-  nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
-in {
+{ config, pkgs, inputs, ... }: {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.default
+      inputs.nix-gaming.nixosModules.steamCompat
     ];
 
   nix.gc = {
@@ -17,6 +17,10 @@ in {
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    substituters = ["https://nix-gaming.cachix.org"];
+    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -115,7 +119,7 @@ in {
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  qt.style = "breeze-dark";
+  qt.style = "breeze";
 
   # Configure keymap in X11
   services.xserver = {
@@ -151,9 +155,6 @@ in {
     isNormalUser = true;
     description = "trenton";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      nix-gaming.packages.${pkgs.hostPlatform.system}.proton-ge
-    ];
   };
 
   users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
@@ -164,6 +165,13 @@ in {
       update = "sudo nixos-rebuild switch";
     };
     histSize = 10000;
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "trenton" = import ./home.nix;
+    };
   };
 
   # Allow unfree packages
@@ -222,16 +230,10 @@ in {
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     #package = pkgs.steam.override { withJava = true; };
+    extraCompatPackages = [
+      inputs.nix-gaming.packages.${pkgs.system}.proton-ge
+    ];
   };
-
-  # Set up an overlay for proton-ge. Found here: https://github.com/fufexan/nix-gaming.
-  nixpkgs.overlays = [
-    (_: prev: {
-        steam = prev.steam.override {
-            extraProfile = "export STEAM_EXTRA_COMPAT_TOOLS_PATHS='${nix-gaming.packages.${pkgs.system}.proton-ge}'";
-        };
-    })
-  ];
 
   # Enable Gamemode
   programs.gamemode = {
