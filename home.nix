@@ -28,6 +28,7 @@
 
     # desktop
     gparted
+    libreoffice-qt
     obsidian
     ollama
     openscad
