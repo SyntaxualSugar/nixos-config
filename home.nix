@@ -28,6 +28,7 @@
 
     # desktop
     gparted
+    languagetool
     libreoffice-qt
     obsidian
     ollama
@@ -57,10 +58,10 @@
     cryfs # for plasma vault
     gocryptfs # for plasma vault
     kate
-    libsForQt5.kdeconnect-kde
-    libsForQt5.kdegraphics-thumbnailers
-    libsForQt5.dolphin-plugins
-    plasma-vault
+    kdePackages.kdeconnect-kde
+    kdePackages.kdegraphics-thumbnailers
+    kdePackages.dolphin-plugins
+    kdePackages.plasma-vault
 
     # social
     discord
@@ -91,8 +92,8 @@
     enableCompletion = true;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
-      update-home = "home-manager switch";
+      rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#default";
+      update = "sudo nix flake update /home/trenton/nix-config";
     };
     oh-my-zsh = {
       enable = true;

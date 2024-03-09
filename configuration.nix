@@ -18,8 +18,8 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings = {
-    substituters = ["https://nix-gaming.cachix.org"];
-    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
+    substituters = ["https://nix-gaming.cachix.org" "https://ai.cachix.org"];
+    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4=" "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="];
   };
 
   # Bootloader.
@@ -72,7 +72,7 @@
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  # Enable hardware firmware - fixes logitech C910 mic
+  # Enable hardware firmware
   hardware.enableAllFirmware = true;
 
   # Enable Proprietary NVIDIA drivers
@@ -118,13 +118,13 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
   qt.style = "breeze";
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -146,6 +146,9 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  # Force wayland on electron apps
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -274,5 +277,4 @@
       };
     };
   };
-
 }
