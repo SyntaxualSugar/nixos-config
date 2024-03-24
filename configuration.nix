@@ -4,10 +4,9 @@
 
 { config, pkgs, inputs, ... }: {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
-      inputs.nix-gaming.nixosModules.steamCompat
     ];
 
   nix.gc = {
@@ -21,6 +20,14 @@
     substituters = ["https://nix-gaming.cachix.org" "https://ai.cachix.org"];
     trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4=" "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="];
   };
+
+  fileSystems."/Media" =
+    {
+      device = "/dev/disk/by-uuid/c72e4dfc-37f7-4907-a5f3-98f0f8ad3616";
+      fsType = "btrfs";
+      options = ["compress=zstd:3"];
+    };
+  services.btrfs.autoScrub.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -118,7 +125,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6.enable = true;
   qt.style = "breeze";
 
   # Configure keymap in X11
@@ -233,9 +240,9 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     #package = pkgs.steam.override { withJava = true; };
-    extraCompatPackages = [
-      inputs.nix-gaming.packages.${pkgs.system}.proton-ge
-    ];
+     extraCompatPackages = [
+       pkgs.proton-ge-bin
+     ];
   };
 
   # Enable Gamemode
@@ -245,7 +252,7 @@
   };
 
   services.syncthing = {
-    enable = true;
+    enable = false;
     user = "trenton";
     dataDir = "/Media";
     settings = {

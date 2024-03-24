@@ -27,15 +27,18 @@
     gotop
 
     # desktop
+    btrfs-assistant
+    btrfs-progs
     gparted
-    languagetool
     libreoffice-qt
     obsidian
-    ollama
     openscad
     pavucontrol
-    super-slicer-latest
+    piper # for logitech 502
+    libratbag # for logitech 502
+    #super-slicer-latest
     syncthingtray
+    thunderbird
     vivaldi
 
     # dev tools
@@ -61,12 +64,12 @@
     kdePackages.kdeconnect-kde
     kdePackages.kdegraphics-thumbnailers
     kdePackages.dolphin-plugins
+    kdePackages.partitionmanager
     kdePackages.plasma-vault
 
     # social
     discord
     telegram-desktop
-    thunderbird
     zoom-us
   ];
 
@@ -77,7 +80,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
   # Program enablement
 
   programs = {
