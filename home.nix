@@ -21,7 +21,10 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages = with pkgs.stable; [
+    super-slicer-latest
+  ]
+  ++ (with pkgs; [
     # cli
     gallery-dl
     gotop
@@ -71,7 +74,7 @@
     discord
     telegram-desktop
     zoom-us
-  ];
+  ]);
 
   # Environment Variables
   home.sessionVariables = {
