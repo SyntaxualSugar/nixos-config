@@ -179,6 +179,7 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    useGlobalPkgs = true;
     users = {
       "trenton" = import ./home.nix;
     };
@@ -190,8 +191,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -223,7 +222,6 @@
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
-
   # Enable Flatpak
   services.flatpak.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
