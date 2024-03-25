@@ -123,6 +123,9 @@
   # Enable PDNSD
   services.pdnsd.enable = true;
 
+  # Enable ratbagd for logitech 502
+  services.ratbagd.enable = true;
+
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -250,7 +253,7 @@
   };
 
   services.syncthing = {
-    enable = false;
+    enable = true;
     user = "trenton";
     dataDir = "/Media";
     settings = {
@@ -275,10 +278,6 @@
       devices = {
         "neptune" = { id = "S4CNLVA-LIAGHT6-MI6O2VJ-E7EUQDV-NSC5Q6A-B5PHAIY-3GND2OI-TZIQLAS"; };
         "OrangePi5" = { id = "6UC4JCM-MFJEZMT-HM5K2FF-PYFG4DF-YAMCLHQ-AQGQ7XN-GQVRAHD-QDK6EAS"; };
-      };
-      gui = {
-        user = "trenton";
-        password = "Zm9Fukd4a84$dKYbLwsCB7a@MFidf&#Sj";
       };
     };
   };
