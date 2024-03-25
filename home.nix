@@ -38,7 +38,6 @@
     openscad
     pavucontrol
     piper # for logitech 502
-    libratbag # for logitech 502
     #super-slicer-latest
     syncthingtray
     thunderbird
@@ -96,7 +95,7 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     shellAliases = {
-      ll = "ls -l";
+      ll = "ls -la";
       rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#default";
       update = "sudo nix flake update /home/trenton/nix-config";
     };
