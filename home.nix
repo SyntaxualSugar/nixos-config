@@ -21,32 +21,34 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs.stable; [
-    super-slicer-latest
-  ]
+  home.packages = with pkgs.stable; []
   ++ (with pkgs; [
     # cli
     gallery-dl
     gotop
+    youtube-dl
 
     # desktop
     btrfs-assistant
     btrfs-progs
-    gparted
+    darktable
+    headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
     obsidian
     openscad
     pavucontrol
     piper # for logitech 502
-    #super-slicer-latest
+    super-slicer-latest
     syncthingtray
     thunderbird
     vivaldi
 
     # dev tools
-    jetbrains.goland
-    jetbrains.pycharm-community
-    rustup
+#     jetbrains.goland
+#     jetbrains.pycharm-community
+#     jetbrains.rust-rover
+#     jetbrains.webstorm
+#     rustup
 
     # gaming
     heroic
@@ -58,7 +60,7 @@
     haruna
     jellyfin-media-player
     mpv
-
+    strawberry
     # plasma
     cryfs # for plasma vault
     gocryptfs # for plasma vault
@@ -66,7 +68,6 @@
     kdePackages.kdeconnect-kde
     kdePackages.kdegraphics-thumbnailers
     kdePackages.dolphin-plugins
-    kdePackages.partitionmanager
     kdePackages.plasma-vault
 
     # social
@@ -92,7 +93,7 @@
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     shellAliases = {
       ll = "ls -la";
