@@ -35,6 +35,12 @@
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.configurationLimit = 20;
 
+
+  # Setting up a udev rule for ploopy headphone dac
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="fedd", MODE="666"
+  '';
+
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
   networking.firewall = { 
@@ -127,8 +133,10 @@
   services.ratbagd.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+  services.displayManager.defaultSession = "plasma";
   qt.style = "breeze";
 
   # Configure keymap in X11
@@ -230,9 +238,8 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.config.common.default = "gtk";
 
-  # Docker
   virtualisation.docker.enable = true;
-  
+  programs.partition-manager.enable = true;
   programs.ssh.startAgent = true;
 
   # Steam
