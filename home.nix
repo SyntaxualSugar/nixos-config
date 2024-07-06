@@ -32,6 +32,7 @@
     btrfs-assistant
     btrfs-progs
     darktable
+    freecad
     headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
     obsidian

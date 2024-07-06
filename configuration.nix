@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   imports =
     [
       ./hardware-configuration.nix
@@ -117,10 +117,9 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Enable Preload
@@ -132,12 +131,27 @@
   # Enable ratbagd for logitech 502
   services.ratbagd.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.defaultSession = "plasma";
-  qt.style = "breeze";
+  # Enable KDE Plasma
+  services.displayManager.sddm.enable = lib.mkDefault true;
+  services.displayManager.sddm.wayland.enable = lib.mkDefault true;
+  services.desktopManager.plasma6.enable = lib.mkDefault true;
+
+  # Enable Flatpak - This has to be done in specialisation so that xdg portals are auto loaded for the respective DE
+  services.flatpak.enable = true;
+
+  specialisation.gnome.configuration = {
+    # Enable Gnome
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.displayManager.gdm.wayland = true;
+    services.xserver.desktopManager.gnome.enable = true;
+
+    services.displayManager.sddm.enable = false;
+    services.displayManager.sddm.wayland.enable = false;
+    services.desktopManager.plasma6.enable = false;
+
+    # Enable Flatpak - This has to be done in specialisation so that xdg portals are auto loaded for the respective DE
+    services.flatpak.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -233,10 +247,6 @@
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
-  # Enable Flatpak
-  services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  xdg.portal.config.common.default = "gtk";
 
   virtualisation.docker.enable = true;
   programs.partition-manager.enable = true;
