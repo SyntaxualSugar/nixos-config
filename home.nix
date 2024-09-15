@@ -21,27 +21,34 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs.stable; []
-  ++ (with pkgs; [
+  home.packages = with pkgs.stable; [
+    czkawka
+    orca-slicer
+  ] ++ (with pkgs; [
     # cli
     gallery-dl
     gotop
-    youtube-dl
+    yt-dlp
 
     # desktop
+    alpaca
     btrfs-assistant
     btrfs-progs
+    canon-cups-ufr2 #pritner driver
     darktable
     freecad
+    gimp
     headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
     obsidian
     openscad
+    #orca-slicer
     pavucontrol
     piper # for logitech 502
     super-slicer-latest
     syncthingtray
     thunderbird
+    winbox
     vivaldi
 
     # dev tools
@@ -55,13 +62,15 @@
     heroic
     gamemode
     prismlauncher
+    sidequest
 
     # media
-    czkawka
+    #czkawka
     haruna
     jellyfin-media-player
     mpv
     strawberry
+
     # plasma
     cryfs # for plasma vault
     gocryptfs # for plasma vault
@@ -131,6 +140,17 @@
       "compile_commands.json"
       "shell.nix"
     ];
+  };
+
+  xdg.desktopEntries = {
+    firefox = {
+      name = "Firefox";
+      genericName = "Web Browser";
+      exec = "MOZ_ENABLE_WAYLAND=0 firefox %U";
+      terminal = false;
+      categories = [ "Application" "Network" "WebBrowser" ];
+      mimeType = [ "text/html" "text/xml" ];
+    };
   };
 
   # Services
