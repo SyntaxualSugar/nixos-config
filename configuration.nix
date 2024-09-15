@@ -269,6 +269,14 @@
     enableRenice = true;
   };
 
+  # Enable Sunshine for streaming to Quest/Moonlight
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
   services.syncthing = {
     enable = true;
     user = "trenton";
