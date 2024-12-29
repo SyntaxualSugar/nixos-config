@@ -24,6 +24,7 @@
   home.packages = with pkgs.stable; [
     czkawka
     orca-slicer
+    super-slicer-latest
   ] ++ (with pkgs; [
     # cli
     gallery-dl
@@ -32,31 +33,29 @@
 
     # desktop
     alpaca
+    betaflight-configurator
     btrfs-assistant
     btrfs-progs
     canon-cups-ufr2 #pritner driver
+    chirp
     darktable
     freecad
     gimp
     headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
+    mullvad-browser
+    networkmanager-openvpn
     obsidian
     openscad
     #orca-slicer
     pavucontrol
     piper # for logitech 502
-    super-slicer-latest
+    #super-slicer-latest
     syncthingtray
     thunderbird
+    wireguard-tools
     winbox
     vivaldi
-
-    # dev tools
-#     jetbrains.goland
-#     jetbrains.pycharm-community
-#     jetbrains.rust-rover
-#     jetbrains.webstorm
-#     rustup
 
     # gaming
     heroic
@@ -84,6 +83,17 @@
     discord
     telegram-desktop
     zoom-us
+
+    # fish
+    bat #Needed for fzf plugin
+    fd #Needed for fzf plugin
+    fzf #Needed for fzf plugin
+    fishPlugins.autopair
+    fishPlugins.colored-man-pages
+    fishPlugins.done
+    fishPlugins.fzf-fish
+    fishPlugins.sponge
+    fishPlugins.tide
   ]);
 
   # Environment Variables
@@ -101,19 +111,12 @@
     java.enable = true;
   };
 
-  programs.zsh = {
+  programs.fish = {
     enable = true;
-    autosuggestion.enable = true;
-    enableCompletion = true;
     shellAliases = {
-      ll = "ls -la";
-      rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#default";
-      update = "sudo nix flake update /home/trenton/nix-config";
-    };
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "python" "man" "docker" "docker-compose" "rust" "golang" ];
-      theme = "agnoster";
+        ll = "ls -la";
+        rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#default";
+        update = "sudo nix flake update /home/trenton/nix-config";
     };
   };
 

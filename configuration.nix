@@ -192,14 +192,21 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
-  users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
-  programs.zsh = {
+#   users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
+#   programs.zsh = {
+#     enable = true;
+#     shellAliases = {
+#       ll = "ls -l";
+#     };
+#     histSize = 10000;
+#   };
+
+  users.defaultUserShell = pkgs.fish;
+  programs.fish = {
     enable = true;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
     };
-    histSize = 10000;
   };
 
   home-manager = {
