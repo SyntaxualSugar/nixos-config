@@ -88,6 +88,7 @@
     bat #Needed for fzf plugin
     fd #Needed for fzf plugin
     fzf #Needed for fzf plugin
+    (nerdfonts.override { fonts = [ "Meslo" ]; })
     fishPlugins.autopair
     fishPlugins.colored-man-pages
     fishPlugins.done
