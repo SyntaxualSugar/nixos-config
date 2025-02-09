@@ -122,6 +122,9 @@
     enable32Bit = true;
   };
 
+  # Enable sdr
+  hardware.rtl-sdr.enable = true;
+
   # Enable Preload
   services.preload.enable = true;
 
@@ -189,7 +192,7 @@
   users.users.trenton = {
     isNormalUser = true;
     description = "trenton";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ]; # plugdev is needed for sdr
   };
 
 #   users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users

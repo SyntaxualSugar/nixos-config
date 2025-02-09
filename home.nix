@@ -30,6 +30,12 @@
     gallery-dl
     gotop
     yt-dlp
+    jq
+
+    # nix dev
+    nixpkgs-fmt
+    nixpkgs-hammering
+    nixpkgs-review
 
     # desktop
     alpaca
@@ -45,11 +51,13 @@
     libreoffice-qt
     mullvad-browser
     networkmanager-openvpn
+    nix-init
     obsidian
     openscad
     #orca-slicer
     pavucontrol
     piper # for logitech 502
+    sdrpp # for software defined radio
     #super-slicer-latest
     syncthingtray
     thunderbird
