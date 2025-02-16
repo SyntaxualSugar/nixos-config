@@ -22,9 +22,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs.stable; [
-    czkawka
-    orca-slicer
-    super-slicer-latest
   ] ++ (with pkgs; [
     # cli
     gallery-dl
@@ -42,8 +39,9 @@
     betaflight-configurator
     btrfs-assistant
     btrfs-progs
-    canon-cups-ufr2 #pritner driver
+    #canon-cups-ufr2 #printer driver ****Disabled 2/13/25 due to issue here: https://github.com/NixOS/nixpkgs/issues/380572
     chirp
+    czkawka
     darktable
     freecad
     gimp
@@ -54,11 +52,12 @@
     nix-init
     obsidian
     openscad
-    #orca-slicer
+    orca-slicer
     pavucontrol
     piper # for logitech 502
+    popsicle # writes ISOs
     sdrpp # for software defined radio
-    #super-slicer-latest
+    super-slicer-latest
     syncthingtray
     thunderbird
     wireguard-tools
@@ -96,7 +95,6 @@
     bat #Needed for fzf plugin
     fd #Needed for fzf plugin
     fzf #Needed for fzf plugin
-    (nerdfonts.override { fonts = [ "Meslo" ]; })
     fishPlugins.autopair
     fishPlugins.colored-man-pages
     fishPlugins.done

@@ -166,8 +166,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -195,15 +194,6 @@
     extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ]; # plugdev is needed for sdr
   };
 
-#   users.defaultUserShell = pkgs.zsh; # Set zsh as default for all users
-#   programs.zsh = {
-#     enable = true;
-#     shellAliases = {
-#       ll = "ls -l";
-#     };
-#     histSize = 10000;
-#   };
-
   users.defaultUserShell = pkgs.fish;
   programs.fish = {
     enable = true;
@@ -211,6 +201,10 @@
       ll = "ls -l";
     };
   };
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.meslo-lg
+  ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
