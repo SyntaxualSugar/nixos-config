@@ -255,13 +255,15 @@
   virtualisation.docker.enable = true;
   programs.partition-manager.enable = true;
   programs.ssh.startAgent = true;
+  programs.java.enable = true;
 
   # Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    #package = pkgs.steam.override { withJava = true; };
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    package = pkgs.steam.override { withJava = true; };
      extraCompatPackages = [
        pkgs.proton-ge-bin
      ];
