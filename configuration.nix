@@ -191,7 +191,7 @@
   users.users.trenton = {
     isNormalUser = true;
     description = "trenton";
-    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ]; # plugdev is needed for sdr
+    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" "audio" ]; # plugdev is needed for sdr
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -287,7 +287,7 @@
     dataDir = "/Media";
     settings = {
       options = {
-        urAccepted = 1;
+        urAccepted = -1;
         relaysEnabled = true;
       };
       folders = {
@@ -301,6 +301,10 @@
         };
         "TV" = {
           path = "/Media/TV";
+          devices = [ "OrangePi5" ];
+        };
+        "Configs" = {
+          path = "/Media/Configs";
           devices = [ "OrangePi5" ];
         };
       };
