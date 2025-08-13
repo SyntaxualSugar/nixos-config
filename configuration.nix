@@ -46,11 +46,13 @@
   networking.firewall = { 
     enable = true;
     allowedTCPPortRanges = [ 
-      { from = 1714; to = 1764; } # KDE Connect
+      { from = 1714; to = 1764; }# KDE Connect
     ];  
     allowedUDPPortRanges = [ 
       { from = 1714; to = 1764; } # KDE Connect
-    ];  
+    ];
+    allowedTCPPorts = [ 8384 22000 ];
+    allowedUDPPorts = [ 22000 21027 ];
   };  
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -152,6 +154,10 @@
     services.displayManager.sddm.wayland.enable = false;
     services.desktopManager.plasma6.enable = false;
 
+    # Enable gcr ssh client
+    services.gnome.gcr-ssh-agent.enable = true;
+    programs.ssh.startAgent = false;
+
     # Enable Flatpak - This has to be done in specialisation so that xdg portals are auto loaded for the respective DE
     services.flatpak.enable = true;
   };
@@ -180,6 +186,12 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  services.ollama = {
+    enable = true;
+    loadModels = [ "dolphin3:8b" ];
+    acceleration = "cuda";
+  }
 
   # Force wayland on electron apps
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -254,8 +266,10 @@
 
   virtualisation.docker.enable = true;
   programs.partition-manager.enable = true;
-  programs.ssh.startAgent = true;
+  programs.ssh.startAgent = lib.mkDefault true;
+  services.gnome.gcr-ssh-agent.enable = lib.mkDefault false;
   programs.java.enable = true;
+  programs.chromium.enable = true;
 
   # Steam
   programs.steam = {

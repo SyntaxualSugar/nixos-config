@@ -80,7 +80,7 @@
     # plasma
     cryfs # for plasma vault
     gocryptfs # for plasma vault
-    kate
+    kdePackages.kate
     kdePackages.kdeconnect-kde
     kdePackages.kdegraphics-thumbnailers
     kdePackages.dolphin-plugins
