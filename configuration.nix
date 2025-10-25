@@ -191,10 +191,7 @@
     enable = true;
     loadModels = [ "dolphin3:8b" ];
     acceleration = "cuda";
-  }
-
-  # Force wayland on electron apps
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;

@@ -22,8 +22,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs.stable; [
-  ] ++ (with pkgs; [
-    # cli
+  # cli
     gallery-dl
     gotop
     yt-dlp
@@ -39,7 +38,7 @@
     betaflight-configurator
     btrfs-assistant
     btrfs-progs
-    #canon-cups-ufr2 #printer driver ****Disabled 2/13/25 due to issue here: https://github.com/NixOS/nixpkgs/issues/380572
+    canon-cups-ufr2 #printer driver
     chirp
     czkawka
     darktable
@@ -58,6 +57,7 @@
     popsicle # writes ISOs
     sdrpp # for software defined radio
     super-slicer-latest
+    solaar
     syncthingtray
     thunderbird
     wireguard-tools
@@ -71,7 +71,7 @@
     sidequest
 
     # media
-    #czkawka
+    czkawka
     haruna
     jellyfin-media-player
     mpv
@@ -101,6 +101,8 @@
     fishPlugins.fzf-fish
     fishPlugins.sponge
     fishPlugins.tide
+  ] ++ (with pkgs; [
+
   ]);
 
   # Environment Variables
