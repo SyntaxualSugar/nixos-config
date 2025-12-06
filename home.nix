@@ -22,7 +22,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs.stable; [
-  # cli
+    # cli
     gallery-dl
     gotop
     yt-dlp
@@ -42,8 +42,10 @@
     chirp
     czkawka
     darktable
+    f3d #stl thumbnailer
     freecad
     gimp
+    go
     headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
     mullvad-browser
@@ -132,10 +134,12 @@
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    userEmail = "tcfox54@gmail.com";
-    userName = "Trenton Fox";
 
-    extraConfig = {
+    settings = {
+      user = {
+        email = "tcfox54@gmail.com";
+        name = "Trenton Fox";
+      };
       core = { whitespace = "trailing-space,space-before-tab"; };
       color = { ui = "auto"; };
       merge = { ff = "only"; };
