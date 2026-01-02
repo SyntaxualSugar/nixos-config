@@ -14,7 +14,13 @@
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgsStable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
+      pkgsStable = import nixpkgs-stable {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [ "electron-25.9.0" ];
+        };
+      };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {

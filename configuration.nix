@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, inputs, ... }: {
+{ config, pkgs, lib, inputs, pkgsStable, ... }: {
   imports =
     [
       ./hardware-configuration.nix
@@ -123,23 +123,14 @@
     nerd-fonts.meslo-lg
   ];
 
-  home-manager = let
-    pkgsStable = import inputs.nixpkgs-stable {
-      inherit (pkgs) system;
-      config = {
-        allowUnfree = true;
-        permittedInsecurePackages = [ "electron-25.9.0" ];
-      };
-    };
-  in {
-  extraSpecialArgs = { inherit inputs pkgsStable; };
-  useGlobalPkgs = false;
+  home-manager = {
+    extraSpecialArgs = { inherit pkgsStable; };
+    useGlobalPkgs = false;
     users = {
       "trenton" = ./home.nix;
     };
   };
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
