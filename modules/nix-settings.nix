@@ -26,9 +26,6 @@
     cores = 0;
   };
 
-  # Allow unfree packages consistently from one place
-  nixpkgs.config.allowUnfree = true;
-
   # System auto upgrade defaults (kept here to centralize nix-related settings)
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;

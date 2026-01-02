@@ -123,10 +123,19 @@
     nerd-fonts.meslo-lg
   ];
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+  home-manager = let
+    pkgsStable = import inputs.nixpkgs-stable {
+      inherit (pkgs) system;
+      config = {
+        allowUnfree = true;
+        permittedInsecurePackages = [ "electron-25.9.0" ];
+      };
+    };
+  in {
+  extraSpecialArgs = { inherit inputs pkgsStable; };
+  useGlobalPkgs = false;
     users = {
-      "trenton" = import ./home.nix;
+      "trenton" = ./home.nix;
     };
   };
 

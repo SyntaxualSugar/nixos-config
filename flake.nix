@@ -14,26 +14,16 @@
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      overlay-stable = final: prev: {
-        stable = import nixpkgs-stable {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-      };
+      pkgsStable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs;};
-          modules = [ 
-            # Overlays-module makes "pkgs.stable" available in configuration.nix
-            ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-stable ]; })
-            ./configuration.nix
-            inputs.home-manager.nixosModules.default
-          ];
-        };
-
+        inherit system;
+        specialArgs = { inherit inputs pkgsStable; };
+        modules = [
+          ./configuration.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
     };
 }
