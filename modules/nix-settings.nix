@@ -8,11 +8,9 @@
     dates = "weekly";
     options = "--delete-older-than 10d";
   };
-  nix.settings.auto-optimize-store = true;
-
   # Nix settings and caches
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
     substituters = [
       "https://cache.nixos.org"
       "https://nix-gaming.cachix.org"
