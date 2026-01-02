@@ -6,20 +6,13 @@
   imports =
     [
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
+      ./modules/nix-settings.nix
+      ./modules/perf.nix
+      ./modules/packages.nix
+      ./modules/nvidia.nix
+      ./modules/services.nix
+      ./modules/desktop-plasma.nix
     ];
-
-  nix.gc = {
-    automatic = true;
-    randomizedDelaySec = "14m";
-    options = "--delete-older-than 10d";
-  };
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings = {
-    substituters = ["https://nix-gaming.cachix.org" "https://ai.cachix.org"];
-    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4=" "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="];
-  };
 
   fileSystems."/Media" =
     {
@@ -87,104 +80,6 @@
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  # Enable hardware firmware
-  hardware.enableAllFirmware = true;
-
-  # Enable Proprietary NVIDIA drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    # Modesetting is required.
-    modesetting.enable = true;
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  services.scx = {
-    enable = true;
-    scheduler = "scx_lavd";
-    extraArgs = [ "--autopower" ];
-  };
-
-  # Enable sdr
-  hardware.rtl-sdr.enable = true;
-
-  # Enable Preload
-  services.preload.enable = true;
-
-  # Enable PDNSD
-  services.pdnsd.enable = true;
-
-  # Enable ratbagd for logitech 502
-  services.ratbagd.enable = true;
-
-  # Enable KDE Plasma
-  services.displayManager.sddm.enable = lib.mkDefault true;
-  services.displayManager.sddm.wayland.enable = lib.mkDefault true;
-  services.desktopManager.plasma6.enable = lib.mkDefault true;
-
-  # Enable Flatpak - This has to be done in specialisation so that xdg portals are auto loaded for the respective DE
-  services.flatpak.enable = true;
-
-  specialisation.gnome.configuration = {
-    # Enable Gnome
-    services.displayManager.gdm.enable = true;
-    services.displayManager.gdm.wayland = true;
-    services.desktopManager.gnome.enable = true;
-
-    services.displayManager.sddm.enable = false;
-    services.displayManager.sddm.wayland.enable = false;
-    services.desktopManager.plasma6.enable = false;
-
-    # Enable gcr ssh client
-    services.gnome.gcr-ssh-agent.enable = true;
-    programs.ssh.startAgent = false;
-
-    # Enable Flatpak - This has to be done in specialisation so that xdg portals are auto loaded for the respective DE
-    services.flatpak.enable = true;
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  services.ollama = {
-    enable = true;
-    loadModels = [ "dolphin3:8b" ];
-    acceleration = "cuda";
-  };
-
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -193,6 +88,27 @@
     isNormalUser = true;
     description = "trenton";
     extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" "audio" ]; # plugdev is needed for sdr
+  };
+
+  # System / program helpers
+  virtualisation.docker.enable = true;
+  programs.partition-manager.enable = true;
+  programs.ssh.startAgent = lib.mkDefault true;
+  programs.java.enable = true;
+  programs.chromium.enable = true;
+
+  # Steam and gaming helpers
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
+  };
+
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
   };
 
   users.defaultUserShell = pkgs.fish;
@@ -209,7 +125,6 @@
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
     users = {
       "trenton" = import ./home.nix;
     };
@@ -250,73 +165,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = false;
-
-  virtualisation.docker.enable = true;
-  programs.partition-manager.enable = true;
-  programs.ssh.startAgent = lib.mkDefault true;
-  services.gnome.gcr-ssh-agent.enable = lib.mkDefault false;
-  programs.java.enable = true;
-  programs.chromium.enable = true;
-
-  # Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    #package = pkgs.steam.override { withJava = true; };
-     extraCompatPackages = [
-       pkgs.proton-ge-bin
-     ];
-  };
-
-  # Enable Gamemode
-  programs.gamemode = {
-    enable = true;
-    enableRenice = true;
-  };
-
-  # Enable Sunshine for streaming to Quest/Moonlight
-  services.sunshine = {
-    enable = true;
-    autoStart = false;
-    capSysAdmin = true;
-    openFirewall = true;
-  };
-
-  services.syncthing = {
-    enable = true;
-    user = "trenton";
-    dataDir = "/Media";
-    settings = {
-      options = {
-        urAccepted = -1;
-        relaysEnabled = true;
-      };
-      folders = {
-        "Music" = {
-          path = "/Media/Music";
-          devices = [ "neptune" "OrangePi5" ];
-        };
-        "Movies" = {
-          path = "/Media/Movies";
-          devices = [ "OrangePi5" ];
-        };
-        "TV" = {
-          path = "/Media/TV";
-          devices = [ "OrangePi5" ];
-        };
-        "Configs" = {
-          path = "/Media/Configs";
-          devices = [ "OrangePi5" ];
-        };
-      };
-      devices = {
-        "neptune" = { id = "S4CNLVA-LIAGHT6-MI6O2VJ-E7EUQDV-NSC5Q6A-B5PHAIY-3GND2OI-TZIQLAS"; };
-        "OrangePi5" = { id = "6UC4JCM-MFJEZMT-HM5K2FF-PYFG4DF-YAMCLHQ-AQGQ7XN-GQVRAHD-QDK6EAS"; };
-      };
-    };
-  };
 }

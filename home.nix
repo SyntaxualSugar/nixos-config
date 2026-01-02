@@ -37,10 +37,7 @@
     alpaca
     betaflight-configurator
     btrfs-assistant
-    btrfs-progs
-    canon-cups-ufr2 #printer driver
     chirp
-    czkawka
     darktable
     f3d #stl thumbnailer
     freecad
@@ -49,7 +46,6 @@
     headphones-toolbox # for ploopy headphone amp
     libreoffice-qt
     mullvad-browser
-    networkmanager-openvpn
     nix-init
     obsidian
     openscad
@@ -62,9 +58,9 @@
     solaar
     syncthingtray
     thunderbird
-    wireguard-tools
     winbox
     vivaldi
+    vscode
 
     # gaming
     heroic
