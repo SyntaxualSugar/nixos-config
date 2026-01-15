@@ -21,9 +21,6 @@
     SystemMaxFileSize=20M
   '';
 
-  # Enable preload
-  services.preload.enable = true;
-
   # Enable PDNSD
   services.pdnsd.enable = true;
 }
