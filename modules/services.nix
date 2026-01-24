@@ -22,7 +22,6 @@
     };
   };
 
-
   # SCX service (scheduler)
   services.scx = {
     enable = true;
@@ -53,21 +52,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-  };
-
-  # Ollama (LLM service)
-  services.ollama = {
-    enable = true;
-    loadModels = [ "gpt-oss:latest" ];
-    package = pkgs.ollama-cuda;
-  };
-
-  # Sunshine streaming
-  services.sunshine = {
-    enable = true;
-    autoStart = false;
-    capSysAdmin = true;
-    openFirewall = true;
   };
 
   # Syncthing configuration

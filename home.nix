@@ -44,6 +44,7 @@
     openscad
     orca-slicer
     pavucontrol
+    picard
     piper # for logitech 502
     popsicle # writes ISOs
     sdrpp # for software defined radio
