@@ -26,16 +26,11 @@
           permittedInsecurePackages = [ "electron-25.9.0" ];
         };
       };
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [ nixified-ai.overlays.comfyui ];
-      };
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs pkgsStable pkgs; };
+        specialArgs = { inherit inputs pkgsStable; };
         modules = [
           ./configuration.nix
           inputs.home-manager.nixosModules.default
