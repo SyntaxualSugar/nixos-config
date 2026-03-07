@@ -1,6 +1,8 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
+  imports = [ inputs.nixified-ai.nixosModules.comfyui ];
+
   # Networking
   networking.networkmanager.enable = true;
 
@@ -90,8 +92,6 @@
   };
 
   # ComfyUI configuration
-  imports = [ inputs.nixified-ai.nixosModules.comfyui ];
-  
   services.comfyui = {
     enable = false; # Set to true to auto-start
     user = "trenton";
