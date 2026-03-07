@@ -98,8 +98,8 @@
     fishPlugins.fzf-fish
     fishPlugins.sponge
     fishPlugins.tide
-  ] ++ (with pkgs; [
-
+  ] ++ (with inputs.nixified-ai.packages.${pkgs.system}; [
+    comfyui-nvidia
   ]);
 
   # Environment Variables

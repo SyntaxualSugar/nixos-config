@@ -1,8 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  imports = [ inputs.nixified-ai.nixosModules.comfyui ];
-
   # Networking
   networking.networkmanager.enable = true;
 
@@ -89,12 +87,5 @@
         "OrangePi5" = { id = "6UC4JCM-MFJEZMT-HM5K2FF-PYFG4DF-YAMCLHQ-AQGQ7XN-GQVRAHD-QDK6EAS"; };
       };
     };
-  };
-
-  # ComfyUI configuration
-  services.comfyui = {
-    enable = false; # Set to true to auto-start
-    user = "trenton";
-    package = inputs.nixified-ai.packages.${pkgs.system}.comfyui-nvidia;
   };
 }
