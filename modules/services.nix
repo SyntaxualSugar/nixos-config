@@ -30,7 +30,10 @@
   };
 
   # Flatpak (ensure single source of truth for flatpak enablement)
-  services.flatpak.enable = true;
+  services.flatpak = {
+    enable = true;
+    remotes."flathub" = "https://flathub.org/repo/flathub.flatpakrepo";
+  };
 
   # X11 keymap
   services.xserver.xkb = {

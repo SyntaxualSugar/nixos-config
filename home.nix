@@ -99,7 +99,7 @@
     fishPlugins.sponge
     fishPlugins.tide
   ] ++ (with pkgs; [
-
+    stable-diffusion-webui
   ]);
 
   # Environment Variables
@@ -121,8 +121,7 @@
     enable = true;
     shellAliases = {
         ll = "ls -la";
-        rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#default";
-        update = "sudo nix flake update /home/trenton/nix-config";
+        rebuild = "nix flake update /home/trenton/nix-config && sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
     };
   };
 
