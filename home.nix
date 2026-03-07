@@ -99,7 +99,7 @@
     fishPlugins.sponge
     fishPlugins.tide
   ] ++ (with inputs.nixified-ai.packages.${pkgs.system}; [
-    invokeai
+    comfyui-nvidia
   ]);
 
   # Environment Variables
