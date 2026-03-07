@@ -124,7 +124,7 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit pkgsStable; };
+    extraSpecialArgs = { inherit pkgsStable inputs; };
     useGlobalPkgs = false;
     users = {
       "trenton" = ./home.nix;
