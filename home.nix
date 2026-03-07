@@ -1,4 +1,4 @@
-{ config, pkgs, pkgsStable, ... }:
+{ config, pkgs, pkgsStable, inputs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -98,8 +98,8 @@
     fishPlugins.fzf-fish
     fishPlugins.sponge
     fishPlugins.tide
-  ] ++ (with pkgs; [
-    stable-diffusion-webui
+  ] ++ (with inputs.nixified-ai.packages.${pkgs.system}; [
+    invokeai
   ]);
 
   # Environment Variables
