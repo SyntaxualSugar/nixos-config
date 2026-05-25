@@ -47,6 +47,7 @@
     picard
     piper # for logitech 502
     popsicle # writes ISOs
+    qbittorrent
     sdrpp # for software defined radio
     super-slicer-latest
     solaar
