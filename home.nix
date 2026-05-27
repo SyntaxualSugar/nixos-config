@@ -1,4 +1,20 @@
 { config, pkgs, pkgsStable, inputs, ... }:
+
+let
+  orca-slicer-fixed = pkgsStable.symlinkJoin {
+    name = "orca-slicer";
+    paths = [
+      pkgsStable.orca-slicer
+    ];
+    buildInputs = [
+      pkgsStable.makeWrapper
+    ];
+    postBuild = ''
+      wrapProgram $out/bin/orca-slicer \
+        --prefix __EGL_VENDOR_LIBRARY_FILENAMES : ${pkgsStable.mesa}/share/glvnd/egl_vendor.d/50_mesa.json \
+    '';
+  };
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -42,12 +58,11 @@
     nix-init
     obsidian
     openscad
-    orca-slicer
+    orca-slicer-fixed
     pavucontrol
     picard
     piper # for logitech 502
     popsicle # writes ISOs
-    qbittorrent
     sdrpp # for software defined radio
     super-slicer-latest
     solaar
