@@ -24,7 +24,7 @@
     cores = 0;
   };
 
-  # System auto upgrade defaults (kept here to centralize nix-related settings)
-  system.autoUpgrade.enable = true;
+  # System auto upgrade disabled - rely on flake for version management
+  system.autoUpgrade.enable = false;
   system.autoUpgrade.allowReboot = false;
 }

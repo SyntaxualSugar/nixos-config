@@ -75,6 +75,7 @@ in
         dontPatchELF = true;
         nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [pkgs.kdePackages.wrapQtAppsHook];
       }))
+    ventoy-full-qt
     vscode
 
     # gaming
@@ -114,7 +115,7 @@ in
     fishPlugins.fzf-fish
     fishPlugins.sponge
     fishPlugins.tide
-  ] ++ (with inputs.nixified-ai.packages.${pkgs.system}; [
+  ] ++ (with inputs.nixified-ai.packages.${pkgs.stdenv.hostPlatform.system}; [
     comfyui-nvidia
   ]);
 
