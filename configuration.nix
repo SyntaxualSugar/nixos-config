@@ -55,6 +55,20 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  
+  # Stabilize DHCP by using systemd-resolved and improving DHCP reliability
+  networking.networkmanager.dns = "systemd-resolved";
+  
+  # Reduce DHCP timeout and improve reliability
+  networking.dhcpcd.enable = false;  # Use NetworkManager's DHCP instead
+  
+  # Disable IPv6 forwarding on WiFi to prevent p2p device errors
+  boot.kernel.sysctl = {
+    "net.ipv6.conf.all.forwarding" = 0;
+    "net.ipv6.conf.default.forwarding" = 0;
+    # Improve DHCP stability
+    "net.ipv4.tcp_retries2" = 5;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -132,6 +146,10 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+  # Permit known-insecure packages intentionally when necessary.
+  # Ventoy is marked insecure in nixpkgs due to binary blobs; add it here
+  # if you understand and accept the risk.
+  nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.12" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
