@@ -115,9 +115,7 @@ in
     fishPlugins.fzf-fish
     fishPlugins.sponge
     fishPlugins.tide
-  ] ++ (with inputs.nixified-ai.packages.${pkgs.stdenv.hostPlatform.system}; [
-    comfyui-nvidia
-  ]);
+  ];
 
   # Environment Variables
   home.sessionVariables = {

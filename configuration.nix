@@ -14,6 +14,20 @@
       ./modules/desktop-plasma.nix
     ];
 
+  nixpkgs.overlays = [ inputs.comfyui-nix.overlays.default ];
+
+  services.comfyui = {
+    enable = true;
+    gpuSupport = "cuda";
+    enableManager = true;
+    dataDir = "/home/trenton/comfyui-data";
+    user = "trenton";
+    group = "users";
+    createUser = false;
+    listenAddress = "127.0.0.1"; # set to "0.0.0.0" if you want LAN access
+    openFirewall = false;
+  };
+
   fileSystems."/Media" =
     {
       device = "/dev/disk/by-uuid/c72e4dfc-37f7-4907-a5f3-98f0f8ad3616";

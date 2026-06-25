@@ -12,7 +12,6 @@
 
     nixified-ai = {
       url = "github:nixified-ai/flake";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

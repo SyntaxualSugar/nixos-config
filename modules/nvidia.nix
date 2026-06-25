@@ -5,7 +5,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    powerManagement.finegrained = false;
     open = true;
     nvidiaSettings = true;
     package = pkgs.linuxPackages_zen.nvidiaPackages.latest;
