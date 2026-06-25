@@ -10,12 +10,10 @@
        inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixified-ai = {
-      url = "github:nixified-ai/flake";
-    };
+    comfyui-nix.url = "github:utensils/comfyui-nix";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nixified-ai, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, comfyui-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgsStable = import nixpkgs-stable {
@@ -36,6 +34,7 @@
         modules = [
           ./configuration.nix
           inputs.home-manager.nixosModules.default
+          inputs.comfyui-nix.nixosModules.default
         ];
       };
     };
