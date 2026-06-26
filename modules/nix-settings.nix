@@ -12,20 +12,15 @@
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [
-      # CUDA-specific caches first (highest priority for your workload)
-      "https://cuda-maintainers.cachix.org"
-      # Community and AI caches
+      "https://comfyui.cachix.org"
       "https://nix-community.cachix.org"
-      "https://ai.cachix.org"
       "https://nix-gaming.cachix.org"
-      # Primary mirrors - geographically diverse and reliable
       "https://cache.nixos.org"
       "https://mirror.sjtu.edu.cn/nix-channels/store"
     ];
     trusted-public-keys = [
-      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNAco0="
+      "comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="
       "nix-community.cachix.org-1:mB9FSh9qf2QlZceNJC6f1tG3NG8sDKJjRN7sFAg5UZs="
-      "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
     max-jobs = "auto";

@@ -19,12 +19,13 @@
   services.comfyui = {
     enable = true;
     gpuSupport = "cuda";
+    cudaCapabilities = [ "8.6" ];
     enableManager = true;
     dataDir = "/home/trenton/comfyui-data";
     user = "trenton";
     group = "users";
     createUser = false;
-    listenAddress = "127.0.0.1"; # set to "0.0.0.0" if you want LAN access
+    listenAddress = "127.0.0.1";
     openFirewall = false;
   };
 

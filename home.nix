@@ -136,7 +136,8 @@ in
     enable = true;
     shellAliases = {
         ll = "ls -la";
-        rebuild = "nix flake update /home/trenton/nix-config && sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
+        rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
+        update = "nix flake update /home/trenton/nix-config";
     };
   };
 
