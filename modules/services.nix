@@ -1,9 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  # Networking
-  networking.networkmanager.enable = true;
-
   # Hardware helpers
   hardware.enableAllFirmware = true;
   hardware.graphics = {

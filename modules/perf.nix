@@ -20,7 +20,4 @@
     SystemKeepFree=50M
     SystemMaxFileSize=20M
   '';
-
-  # Enable PDNSD
-  services.pdnsd.enable = true;
 }

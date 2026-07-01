@@ -67,12 +67,9 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
   
   # Stabilize DHCP by using systemd-resolved and improving DHCP reliability
-  networking.networkmanager.dns = "systemd-resolved";
+  networking.networkmanager.enable = true;
   
   # Reduce DHCP timeout and improve reliability
   networking.dhcpcd.enable = false;  # Use NetworkManager's DHCP instead
@@ -81,8 +78,6 @@
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 0;
     "net.ipv6.conf.default.forwarding" = 0;
-    # Improve DHCP stability
-    "net.ipv4.tcp_retries2" = 5;
   };
 
   # Set your time zone.

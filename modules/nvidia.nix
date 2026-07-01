@@ -9,4 +9,8 @@
     nvidiaSettings = true;
     package = pkgs.linuxPackages_zen.nvidiaPackages.latest;
   };
+
+  environment.sessionVariables = {
+    KWIN_DRM_DEVICES = "/dev/dri/card1";
+  };
 }

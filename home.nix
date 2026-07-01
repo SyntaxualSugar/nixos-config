@@ -137,7 +137,7 @@ in
     shellAliases = {
         ll = "ls -la";
         rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
-        update = "nix flake update /home/trenton/nix-config";
+        update = "cd /home/trenton/nix-config && nix flake update";
     };
   };
 
