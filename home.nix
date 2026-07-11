@@ -46,6 +46,7 @@ in
     alpaca
     betaflight-configurator
     btrfs-assistant
+    inputs.claude-desktop.packages.x86_64-linux.claude-desktop-fhs
     chirp
     darktable
     f3d #stl thumbnailer

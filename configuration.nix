@@ -62,17 +62,6 @@
     allowedTCPPorts = [ 8384 22000 ];
     allowedUDPPorts = [ 22000 21027 ];
   };  
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  
-  # Stabilize DHCP by using systemd-resolved and improving DHCP reliability
-  networking.networkmanager.enable = true;
-  
-  # Reduce DHCP timeout and improve reliability
-  networking.dhcpcd.enable = false;  # Use NetworkManager's DHCP instead
   
   # Disable IPv6 forwarding on WiFi to prevent p2p device errors
   boot.kernel.sysctl = {

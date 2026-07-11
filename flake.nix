@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
 
     home-manager = {
        url = "github:nix-community/home-manager";
