@@ -1,4 +1,4 @@
-{ config, pkgs, pkgsStable, inputs, ... }:
+{ config, pkgs, pkgsStable, inputs, lib, ... }:
 
 let
   orca-slicer-fixed = pkgsStable.symlinkJoin {
@@ -41,6 +41,7 @@ in
     nixpkgs-fmt
     nixpkgs-hammering
     nixpkgs-review
+    inputs.mcp-nixos.packages.x86_64-linux.mcp-nixos
 
     # desktop
     alpaca
@@ -80,8 +81,8 @@ in
     vscode
 
     # gaming
+    # gamemode is provided by programs.gamemode.enable in configuration.nix
     heroic
-    gamemode
     prismlauncher
     sidequest
 
@@ -194,5 +195,30 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
   };
+
+  # Claude Desktop writes its own live UI/session state into
+  # claude_desktop_config.json, so we can't own the whole file as a symlink
+  # (home.file) without clobbering that state on every app save. Instead,
+  # merge just the mcpServers key into whatever's already there, preserving
+  # everything else Claude Desktop has written.
+  home.activation.claudeDesktopMcpConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    CONFIG="$HOME/.config/Claude/claude_desktop_config.json"
+    MCP_SERVERS=${lib.escapeShellArg (builtins.toJSON {
+      nixos = {
+        command = "${inputs.mcp-nixos.packages.x86_64-linux.mcp-nixos}/bin/mcp-nixos";
+        args = [ ];
+      };
+    })}
+
+    $DRY_RUN_CMD mkdir -p "$(dirname "$CONFIG")"
+    if [ -f "$CONFIG" ]; then
+      $DRY_RUN_CMD ${pkgs.jq}/bin/jq --argjson mcp "$MCP_SERVERS" '.mcpServers = $mcp' "$CONFIG" > "$CONFIG.tmp" \
+        && $DRY_RUN_CMD mv "$CONFIG.tmp" "$CONFIG"
+    else
+      $VERBOSE_ECHO "creating $CONFIG"
+      echo "{\"mcpServers\": $MCP_SERVERS}" > "$CONFIG"
+    fi
+  '';
 }

@@ -11,12 +11,16 @@
   # Nix settings and caches
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
+    # Removed the SJTU (Shanghai) mirror: it's signed by the same key as
+    # cache.nixos.org (no separate trusted-public-key needed), but being
+    # geographically distant from Arkansas means a slow/unreachable response
+    # eats into the connect-timeout below on every cache miss instead of
+    # falling straight through to cache.nixos.org.
     substituters = [
       "https://comfyui.cachix.org"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://cache.nixos.org"
-      "https://mirror.sjtu.edu.cn/nix-channels/store"
     ];
     trusted-public-keys = [
       "comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="

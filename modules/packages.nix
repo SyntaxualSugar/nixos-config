@@ -5,6 +5,8 @@
   environment.systemPackages = with pkgs; [
     btrfs-progs
     canon-cups-ufr2
+    kdePackages.bluedevil
+    localsend
     networkmanager-openvpn
     wireguard-tools
   ];

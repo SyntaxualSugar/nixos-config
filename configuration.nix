@@ -63,12 +63,6 @@
     allowedUDPPorts = [ 22000 21027 ];
   };  
   
-  # Disable IPv6 forwarding on WiFi to prevent p2p device errors
-  boot.kernel.sysctl = {
-    "net.ipv6.conf.all.forwarding" = 0;
-    "net.ipv6.conf.default.forwarding" = 0;
-  };
-
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
@@ -150,11 +144,8 @@
   # if you understand and accept the risk.
   nixpkgs.config.permittedInsecurePackages = [ "ventoy-qt5-1.1.12" ];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    kdePackages.bluedevil
-  ];
+  # System-wide packages live in modules/packages.nix (kept intentionally
+  # small — prefer home.packages in home.nix for anything user-scoped).
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
