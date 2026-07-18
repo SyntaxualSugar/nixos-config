@@ -9,12 +9,22 @@ on:
 jobs:
   flake:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: "write"
+      contents: "read"
     steps:
       - uses: actions/checkout@v4
-      - name: Install Nix
-        run: |
-          curl -L https://nixos.org/nix/install | sh
+
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - uses: DeterminateSystems/flake-checker-action@main
+
+      # Runs formatter (nixpkgs-fmt), linters (statix, deadnix), and
+      # evaluates nixosConfigurations for option/type errors — all defined
+      # once in flake.nix so this stays in sync with what you can run
+      # locally via `nix flake check`.
       - name: Run flake check
         run: nix flake check
-      - name: Check nixpkgs-fmt
-        run: nix run nixpkgs#nixpkgs-fmt -- --check
+

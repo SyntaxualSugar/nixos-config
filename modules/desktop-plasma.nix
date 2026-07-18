@@ -8,13 +8,13 @@
   security.pam.services.sddm.kwallet.enable = true;
 
   systemd.services.sync-sddm-screen-config = {
-  description = "Sync KWin output config to SDDM greeter";
-  serviceConfig.Type = "oneshot";
-  script = ''
-    mkdir -p /var/lib/sddm/.config
-    cp /home/trenton/.config/kwinoutputconfig.json /var/lib/sddm/.config/kwinoutputconfig.json
-    chown sddm:sddm /var/lib/sddm/.config/kwinoutputconfig.json
-  '';
+    description = "Sync KWin output config to SDDM greeter";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      mkdir -p /var/lib/sddm/.config
+      cp /home/trenton/.config/kwinoutputconfig.json /var/lib/sddm/.config/kwinoutputconfig.json
+      chown sddm:sddm /var/lib/sddm/.config/kwinoutputconfig.json
+    '';
   };
 
   systemd.paths.sync-sddm-screen-config = {

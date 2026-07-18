@@ -1,0 +1,8 @@
+# statix (nix linter) config.
+#
+# repeated_keys (W20) is disabled: this repo consistently uses flat dotted
+# keys (e.g. `boot.foo = ...; boot.bar = ...;`) rather than nested attrsets,
+# on purpose, throughout every module. That's a deliberate style choice
+# (more diff-friendly, easier to grep, avoids deep nesting churn when
+# adding/removing a single option) — not an oversight to fix file-by-file.
+disabled = ["repeated_keys"]

@@ -22,13 +22,16 @@ in
   home.homeDirectory = "/home/trenton";
 
   # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  # compatible with. Bumped 23.11 -> 26.05 deliberately (2026-07-15): audited
+  # every stateVersion-gated default in the modules actually used here
+  # (firefox, git, fish, htop, java) against the home-manager source. Only
+  # two defaults change: programs.firefox.configPath moves to the XDG path
+  # (profile directory migrated on disk at the same time as this bump — see
+  # nix-config README/commit) and programs.git.signing.format's legacy
+  # default is dropped, which is a no-op since commit signing isn't
+  # configured. Re-audit modules/lib/deprecations.nix call sites before
+  # bumping again.
+  home.stateVersion = "26.05";
 
   home.packages = with pkgsStable; [
     # cli
@@ -75,7 +78,7 @@ in
       (oldAttrs: {
         dontWrapQtApps = false;
         dontPatchELF = true;
-        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [pkgs.kdePackages.wrapQtAppsHook];
+        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.kdePackages.wrapQtAppsHook ];
       }))
     ventoy-full-qt
     vscode
@@ -137,15 +140,15 @@ in
   programs.fish = {
     enable = true;
     shellAliases = {
-        ll = "ls -la";
-        rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
-        update = "cd /home/trenton/nix-config && nix flake update";
+      ll = "ls -la";
+      rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
+      update = "cd /home/trenton/nix-config && nix flake update";
     };
   };
 
   programs.git = {
     enable = true;
-  package = pkgs.gitFull;
+    package = pkgs.gitFull;
 
     settings = {
       user = {

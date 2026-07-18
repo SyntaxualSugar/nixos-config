@@ -17,8 +17,8 @@
     mcp-nixos.url = "github:utensils/mcp-nixos";
 
     home-manager = {
-       url = "github:nix-community/home-manager";
-       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # NOT following root nixpkgs here on purpose: comfyui-nix pins CUDA/
@@ -33,6 +33,10 @@
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, comfyui-nix, ... }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
       pkgsStable = import nixpkgs-stable {
         inherit system;
         config = {
@@ -53,6 +57,27 @@
           inputs.home-manager.nixosModules.default
           inputs.comfyui-nix.nixosModules.default
         ];
+      };
+
+      # `nix fmt` formats the whole tree with nixpkgs-fmt.
+      formatter.${system} = pkgs.nixpkgs-fmt;
+
+      # `nix flake check` runs these automatically, locally and in CI —
+      # single source of truth instead of duplicating tool invocations
+      # in a workflow file.
+      checks.${system} = {
+        nixpkgs-fmt = pkgs.runCommand "check-nixpkgs-fmt" { nativeBuildInputs = [ pkgs.nixpkgs-fmt ]; } ''
+          nixpkgs-fmt --check ${self}
+          touch $out
+        '';
+        statix = pkgs.runCommand "check-statix" { nativeBuildInputs = [ pkgs.statix ]; } ''
+          statix check --config ${self} ${self}
+          touch $out
+        '';
+        deadnix = pkgs.runCommand "check-deadnix" { nativeBuildInputs = [ pkgs.deadnix ]; } ''
+          deadnix --fail --no-lambda-pattern-names ${self}
+          touch $out
+        '';
       };
     };
 }

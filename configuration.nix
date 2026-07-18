@@ -33,7 +33,7 @@
     {
       device = "/dev/disk/by-uuid/c72e4dfc-37f7-4907-a5f3-98f0f8ad3616";
       fsType = "btrfs";
-      options = ["compress=zstd:3"];
+      options = [ "compress=zstd:3" ];
     };
   services.btrfs.autoScrub.enable = true;
 
@@ -51,18 +51,18 @@
 
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
-  networking.firewall = { 
+  networking.firewall = {
     enable = true;
-    allowedTCPPortRanges = [ 
-      { from = 1714; to = 1764; }# KDE Connect
-    ];  
-    allowedUDPPortRanges = [ 
+    allowedTCPPortRanges = [
+      { from = 1714; to = 1764; } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
       { from = 1714; to = 1764; } # KDE Connect
     ];
     allowedTCPPorts = [ 8384 22000 ];
     allowedUDPPorts = [ 22000 21027 ];
-  };  
-  
+  };
+
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
