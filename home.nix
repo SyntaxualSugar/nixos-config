@@ -39,6 +39,8 @@ in
     gotop
     yt-dlp
     jq
+    python3
+    uv
 
     # nix dev
     nixpkgs-fmt
@@ -48,11 +50,11 @@ in
 
     # desktop
     alpaca
-    betaflight-configurator
     btrfs-assistant
     inputs.claude-desktop.packages.x86_64-linux.claude-desktop-fhs
     chirp
     darktable
+    expresslrs-configurator
     f3d #stl thumbnailer
     freecad
     gimp
@@ -61,6 +63,7 @@ in
     libreoffice-qt
     mullvad-browser
     nix-init
+    nodejs_22
     obsidian
     openscad
     orca-slicer-fixed
@@ -102,6 +105,7 @@ in
     kdePackages.kate
     kdePackages.kdeconnect-kde
     kdePackages.kdegraphics-thumbnailers
+    kdePackages.kdenlive
     kdePackages.dolphin-plugins
     kdePackages.plasma-vault
 
@@ -143,6 +147,8 @@ in
       ll = "ls -la";
       rebuild = "sudo nixos-rebuild switch --flake /home/trenton/nix-config#nixos --impure";
       update = "cd /home/trenton/nix-config && nix flake update";
+      openscad-mcp = "uvx --with 'mcp<2' mcpo --host 0.0.0.0 --port 8000 -- uvx --with 'mcp<2' openscad-mcp";
+      desktop-commander = "uvx --with 'mcp<2' mcpo --host 0.0.0.0 --port 8001 -- npx -y @wonderwhy-er/desktop-commander@latest";
     };
   };
 
@@ -212,6 +218,13 @@ in
       nixos = {
         command = "${inputs.mcp-nixos.packages.x86_64-linux.mcp-nixos}/bin/mcp-nixos";
         args = [ ];
+      };
+      openscad = {
+        command = "uvx";
+        args = ["openscad-mcp"];
+        env = {
+          "OPENSCAD_PATH"= "/home/trenton/.nix-profile/bin/openscad";
+        };
       };
     })}
 

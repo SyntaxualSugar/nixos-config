@@ -14,21 +14,6 @@
       ./modules/desktop-plasma.nix
     ];
 
-  nixpkgs.overlays = [ inputs.comfyui-nix.overlays.default ];
-
-  services.comfyui = {
-    enable = true;
-    gpuSupport = "cuda";
-    cudaCapabilities = [ "8.6" ];
-    enableManager = true;
-    dataDir = "/home/trenton/comfyui-data";
-    user = "trenton";
-    group = "users";
-    createUser = false;
-    listenAddress = "127.0.0.1";
-    openFirewall = false;
-  };
-
   fileSystems."/Media" =
     {
       device = "/dev/disk/by-uuid/c72e4dfc-37f7-4907-a5f3-98f0f8ad3616";
@@ -47,10 +32,17 @@
   # Setting up a udev rule for ploopy headphone dac
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", ATTRS{idProduct}=="fedd", MODE="666"
+    # STM32 Virtual COM Port (ELRS Pocket, flight controllers) - not getting dialout group by default
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", GROUP="dialout", MODE="0660"
   '';
 
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
+  # Enabling this pulls in wpa_supplicant, sets networking.useDHCP = false
+  # automatically (confirmed in networkmanager.nix — no manual dhcpcd
+  # disabling needed), and plasma6.nix conditionally adds the plasma-nm
+  # applet package whenever this is true, so no extra package needed either.
+  networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
@@ -94,7 +86,7 @@
   users.users.trenton = {
     isNormalUser = true;
     description = "trenton";
-    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" "audio" ]; # plugdev is needed for sdr
+    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" "audio" "dialout" ]; # plugdev is needed for sdr, dialout is needed for ELRS/serial flashing
   };
 
   # System / program helpers

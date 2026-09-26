@@ -6,6 +6,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    extraPackages = [ pkgs.libglvnd ]; # provides libGL.so.1 - needed by nwjs-based apps (e.g. betaflight-configurator), missing otherwise
   };
   hardware.rtl-sdr.enable = true;
 
@@ -28,6 +29,11 @@
 
   # Flatpak (ensure single source of truth for flatpak enablement)
   services.flatpak.enable = true;
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
+  };
 
   # X11 keymap
   services.xserver.xkb = {

@@ -20,17 +20,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # NOT following root nixpkgs here on purpose: comfyui-nix pins CUDA/
-    # PyTorch derivations (e.g. kornia-rs) that are only cached against its
-    # own nixpkgs snapshot. Following root nixpkgs breaks that cache hit and
-    # forces multi-GB CUDA packages to build from source. Update this input
-    # deliberately (nix flake update comfyui-nix) when you're ready to eat
-    # that rebuild, not as a side effect of an unrelated flake.nix change.
-    comfyui-nix.url = "github:utensils/comfyui-nix";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, comfyui-nix, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -55,7 +47,6 @@
         modules = [
           ./configuration.nix
           inputs.home-manager.nixosModules.default
-          inputs.comfyui-nix.nixosModules.default
         ];
       };
 

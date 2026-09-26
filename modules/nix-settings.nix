@@ -17,15 +17,15 @@
     # eats into the connect-timeout below on every cache miss instead of
     # falling straight through to cache.nixos.org.
     substituters = [
-      "https://comfyui.cachix.org"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://cache.nixos.org"
+      "https://cache.nixos-cuda.org"
     ];
     trusted-public-keys = [
-      "comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="
       "nix-community.cachix.org-1:mB9FSh9qf2QlZceNJC6f1tG3NG8sDKJjRN7sFAg5UZs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
     ];
     max-jobs = "auto";
     cores = 0;

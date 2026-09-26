@@ -17,10 +17,12 @@
     "net.ipv6.conf.default.forwarding" = 0;
   };
 
-  # Limit journald disk usage to avoid filling disks and causing stalls
-  services.journald.extraConfig = ''
-    SystemMaxUse=200M
-    SystemKeepFree=50M
-    SystemMaxFileSize=20M
-  '';
+  # Limit journald disk usage to avoid filling disks and causing stalls.
+  # services.journald.extraConfig was removed upstream (now a hard
+  # assertion, not just a warning) in favor of services.journald.settings.
+  services.journald.settings.Journal = {
+    SystemMaxUse = "200M";
+    SystemKeepFree = "50M";
+    SystemMaxFileSize = "20M";
+  };
 }
