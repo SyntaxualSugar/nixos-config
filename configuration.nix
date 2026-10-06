@@ -21,6 +21,8 @@
       options = [ "compress=zstd:3" ];
     };
   services.btrfs.autoScrub.enable = true;
+  zramSwap.enable = true;
+  systemd.oomd.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
